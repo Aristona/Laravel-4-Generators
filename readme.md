@@ -57,7 +57,7 @@ Think of generators as an easy way to speed up your workflow. Rather than openin
 
 Laravel 4 offers a migration generator, but it stops just short of creating the schema (or the fields for the table). Let's review a couple examples, using `generate:migration`.
 
-    php artisan generate:migration create_post_table
+    php artisan generate:migration create_posts_table
 
 If we don't specify the `fields` option, the following file will be created within `app/database/migrations`.
 
@@ -66,7 +66,7 @@ If we don't specify the `fields` option, the following file will be created with
 
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePostTable extends Migration {
+class CreatePostsTable extends Migration {
 
     /**
 	 * Run the migrations.
@@ -75,7 +75,7 @@ class CreatePostTable extends Migration {
 	 */
 	public function up()
 	{
-	  Schema::create('post', function($table)
+	  Schema::create('posts', function($table)
 	  {
 	    $table->increments('id');
 
@@ -90,7 +90,7 @@ class CreatePostTable extends Migration {
 	 */
 	public function down()
 	{
-	  Schema::drop('post');
+	  Schema::drop('posts');
 	}
 
 }
@@ -211,6 +211,14 @@ To declare fields, use a comma-separated list of key:value:option sets, where `k
 
 Please make note of the last example, where we specify a character limit: `string[30]`. This will produce `$table->string('username', 30)->unique();`
 
+It is possible to destroy the table by issuing:
+
+	php artisan generate:migration destroy_posts_table
+	
+If you'd like to have an accurate artisan rollback option set the `fields` option as well:
+
+	php artisan generate:migration destroy_posts_table --fields="title:string, body:text"
+
 As a final demonstration, let's run a migration to remove the `completed` field from a `tasks` table.
 
     php artisan generate:migration remove_completed_from_tasks_table --fields="completed:boolean"
@@ -315,7 +323,7 @@ To fully seed the `dogs` table:
 
 ### Resources
 
-Think of the resource generator as the big enchilda. It calls all of its sibling generate commands. Assuming the following command:
+Think of the resource generator as the big enchilada. It calls all of its sibling generate commands. Assuming the following command:
 
     php artisan generate:resource dog --fields="name:string"
 
